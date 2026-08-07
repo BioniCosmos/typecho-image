@@ -1,0 +1,20 @@
+#!/bin/sh
+set -e
+
+if [ -s /app/public/config.inc.php ]; then
+    rm -rf /app/public/install.php /app/public/install /app/public/_usr
+else
+    if [ -n "$(ls -A /app/public/usr)" ]; then
+        echo '`usr` is not empty'
+        exit 1
+    fi
+    mv /app/public/_usr/* /app/public/usr
+    rmdir /app/public/_usr
+fi
+
+# first arg is `-f` or `--some-option`
+if [ "${1#-}" != "$1" ]; then
+        set -- frankenphp run "$@"
+fi
+
+exec "$@"
