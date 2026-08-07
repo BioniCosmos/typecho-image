@@ -4,6 +4,9 @@ set -e
 if [ -s /app/public/config.inc.php ]; then
     rm -rf /app/public/install.php /app/public/install /app/public/_usr
 else
+    if [ ! -e /app/public/usr ]; then
+        mkdir /app/public/usr
+    fi
     if [ -n "$(ls -A /app/public/usr)" ]; then
         echo '`usr` is not empty'
         exit 1
