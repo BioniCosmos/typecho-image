@@ -5,6 +5,7 @@ RUN adduser -SH typecho && \
     setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/frankenphp && \
     chown -R typecho /config/caddy /data/caddy && \
     apk add --no-cache su-exec && \
+    mv $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini && \
     cd /app/public && \
     rm * && \
     curl -OL https://github.com/typecho/typecho/releases/download/v1.3.0/typecho.zip && \
