@@ -1,7 +1,11 @@
 FROM docker.io/dunglas/frankenphp:1-alpine
 ENV SERVER_NAME=:80
 COPY patch /app/patch
-RUN cd /app/public && \
+RUN adduser -SH typecho && \
+    setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/frankenphp && \
+    chown -R typecho /config/caddy /data/caddy && \
+    apk add --no-cache su-exec && \
+    cd /app/public && \
     rm * && \
     curl -OL https://github.com/typecho/typecho/releases/download/v1.3.0/typecho.zip && \
     unzip typecho.zip && \
