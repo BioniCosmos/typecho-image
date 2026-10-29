@@ -4,6 +4,8 @@ COPY patch /app/patch
 RUN adduser -SH typecho && \
     setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/frankenphp && \
     chown -R typecho /config/caddy /data/caddy && \
+    sed -i '/{$CADDY_GLOBAL_OPTIONS}/i\
+      \\tservers {\n\t\ttrusted_proxies static private_ranges\n\t}\n' /etc/frankenphp/Caddyfile && \
     apk add --no-cache su-exec && \
     mv $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini && \
     cd /app/public && \
